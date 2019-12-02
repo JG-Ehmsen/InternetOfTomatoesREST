@@ -1,0 +1,71 @@
+Sensor = require('../models/sensorModel');
+
+exports.getall = function (req, res) {
+    Sensor.get(function (err, sensors) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+            });
+        }
+        res.json({
+            status: "success",
+            message: "Sensors retrieved successfully",
+            data: sensors
+        });
+    });
+};
+
+exports.new = function (req, res) {
+    let sensor = new Sensor();
+    sensor.name = req.body.name;
+    sensor.master = req.body.master
+    sensor.save(function (err) {
+        if (err)
+            res.json(err);
+        res.json({
+            message: 'New sensor created!',
+            data: sensor
+        });
+    });
+};
+
+exports.get = function (req, res) {
+    Sensor.findById(req.params.sensor_id, function (err, sensor) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Sensor details loading..',
+            data: sensor
+        });
+    });
+};
+
+exports.update = function (req, res) {Sensor.findById(req.params.sensor_id, function (err, sensor) {
+    if (err)
+        res.send(err);
+    sensor.name = req.body.name ? req.body.name : sensor.name;
+    sensor.master = req.body.master ? req.body.master : sensor.master;
+    sensor.save(function (err) {
+        if (err)
+            res.json(err);
+        res.json({
+            message: 'Sensor Info updated',
+            data: sensor
+        });
+    });
+});
+};
+
+exports.delete = function (req, res) {
+    Sensor.remove({
+        _id: req.params.sensor_id
+    }, function (err, sensor) {
+        if (err)
+            res.send(err);
+        res.json({
+            status: "success",
+            message: 'Sensor deleted'
+        });
+    });
+};
