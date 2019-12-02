@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 
 const mqttClient = new mqttHandler(config.flespiHost, config.flespiToken);
-mqttClient.connect();
+mqttClient.connect(config.sensorTopic);
 
 mongoose.connect(config.url + config.db, { useNewUrlParser: true});
 var db = mongoose.connection;

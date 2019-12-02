@@ -1,5 +1,4 @@
 let mqtt = require('mqtt');
-Sensor = require('../models/sensorModel');
 SensorData = require('../models/sensorDataModel');
 
 class MqttHandler {
@@ -9,7 +8,7 @@ class MqttHandler {
         this.username = token;
     }
 
-    connect() {
+    connect(sensorTopic) {
         //Connect mqtt with credentials (In case of needed, otherwise we can omit 2nd param)
         this.mqttClient = mqtt.connect(this.host, {
             username: this.username,
@@ -28,20 +27,17 @@ class MqttHandler {
         });
 
         // Mqtt subscriptions with various topics
-        //this.mqttClient.subscribe("mytopic", { qos: 0 });
-        this.mqttClient.subscribe("/sensor/#", { qos: 0 });
+        this.mqttClient.subscribe(sensorTopic, { qos: 0 });
 
         // When a message arrive console log it
         this.mqttClient.on("message", function(topic, message) {
-            if (topic == "/sensor/*") {
-                // DO something e.g. send to DB and websockets
-            }
             var jsonMessage = JSON.parse(message);
-            //console.log(JSON.parse(message.toString()).name);
-            console.log(jsonMessage.id);
-            console.log(jsonMessage.name);
-            console.log(jsonMessage.value);
-            console.log(jsonMessage.timestamp);
+            /*
+            console.log("SensorID: " + jsonMessage.id);
+            console.log("SensorType: " + jsonMessage.name);
+            console.log("SensorValue: " + jsonMessage.value);
+            console.log("SensorTimestamp: " + jsonMessage.timestamp);
+            */
             var sensorData = new SensorData();
             sensorData.id = jsonMessage.id;
             sensorData.name = jsonMessage.name;
@@ -49,7 +45,7 @@ class MqttHandler {
             sensorData.timestamp = jsonMessage.timestamp;
             sensorData.save(function (err) {
                 if (err)
-                    res.json(err);
+                    console.log("Error logging sensor data with message: " + message)
             });
         });
 
@@ -58,13 +54,14 @@ class MqttHandler {
         });
     }
 
-    sendMessage(message) {
-        this.mqttClient.publish("mytopic", message);
-    }
-
     setBrightnesLED(value) {
         this.mqttClient.publish("/control/led", value);
     }
+}
+
+function fe(item, index)
+{
+    this.mqttClient.subscribe(item, { qos: 0 });
 }
 
 module.exports = MqttHandler;
