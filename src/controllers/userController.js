@@ -56,7 +56,8 @@ exports.getAllEmail = function (req, res) {
 exports.new = function (req, res) {
     let user = new User();
     user.name = req.body.name;
-    user.email = req.body.email
+    user.email = req.body.email;
+    user.password = req.body.password;
     user.save(function (err) {
         if (err)
             res.json(err);
@@ -73,6 +74,7 @@ exports.update = function (req, res) {User.findById(req.params.user_id, function
         res.send(err);
     user.name = req.body.name ? req.body.name : user.name;
     user.email = req.body.email ? req.body.email : user.email;
+    user.password = req.body.password ? req.body.password : user.password;
     user.save(function (err) {
         if (err)
             res.json(err);

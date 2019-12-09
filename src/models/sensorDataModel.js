@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var sensorDataSchema = mongoose.Schema({
+let sensorDataSchema = mongoose.Schema({
     id: {
         type: String,
         required: true
@@ -20,7 +20,7 @@ var sensorDataSchema = mongoose.Schema({
 });
 
 
-var SensorData = module.exports = mongoose.model('sensorData', sensorDataSchema);
+let SensorData = module.exports = mongoose.model('sensorData', sensorDataSchema);
 module.exports.get = function (callback, limit) {
     SensorData.find(callback).limit(limit);
 }

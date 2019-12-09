@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var sensorPackageSchema = mongoose.Schema({
+let sensorPackageSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -12,7 +12,7 @@ var sensorPackageSchema = mongoose.Schema({
 });
 
 
-var SensorPackage = module.exports = mongoose.model('sensorPackage', sensorPackageSchema);
+let SensorPackage = module.exports = mongoose.model('sensorPackage', sensorPackageSchema);
 module.exports.get = function (callback, limit) {
     SensorPackage.find(callback).limit(limit);
 }
