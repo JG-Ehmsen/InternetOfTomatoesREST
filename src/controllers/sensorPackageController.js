@@ -94,7 +94,8 @@ exports.delete = function (req, res) {
         else
         res.json({
             status: "success",
-            message: 'SensorPackage deleted'
+            message: 'SensorPackage deleted',
+            data: sensorPackage
         });
     });
 };

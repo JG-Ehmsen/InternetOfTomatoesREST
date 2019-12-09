@@ -110,7 +110,8 @@ exports.delete = function (req, res) {
         else
         res.json({
             status: "success",
-            message: 'SensorData deleted'
+            message: 'SensorData deleted',
+            data: sensorData
         });
     });
 };

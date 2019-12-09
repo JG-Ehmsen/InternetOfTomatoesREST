@@ -3,6 +3,7 @@ let router = require('express').Router();
 let sensorDataController = require('./controllers/sensorDataController');
 let sensorController = require('./controllers/sensorController');
 let sensorPackageController = require('./controllers/sensorPackageController');
+let userController = require('./controllers/userController');
 
 let mqttHandler = require('./messaging/mqttHandler');
 
@@ -49,6 +50,18 @@ router.route('/sensorPackages/name/:sensorPackage_name')
     .get(sensorPackageController.getAllName);
 router.route('/sensorPackages/owner/:sensorPackage_owner')
     .get(sensorPackageController.getAllOwner);
+
+router.route('/users')
+    .get(userController.getall)
+    .post(userController.new);
+router.route('/users/:user_id')
+    .get(userController.getId)
+    .put(userController.update)
+    .delete(userController.delete);
+router.route('/users/name/:user_name')
+    .get(userController.getAllName);
+router.route('/users/email/:user_email')
+    .get(userController.getAllEmail);
 
 router.route('/leds')
     .put(function (req, res) {

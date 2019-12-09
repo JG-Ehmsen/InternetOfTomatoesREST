@@ -1,0 +1,101 @@
+User = require('../models/userModel');
+
+exports.getall = function (req, res) {
+    User.get(function (err, users) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+            });
+        }
+        else
+            res.json({
+                status: "success",
+                message: "Users retrieved successfully",
+                data: users
+            });
+    });
+};
+
+exports.getId = function (req, res) {
+    User.findById(req.params.user_id, function (err, user) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'User details loading..',
+                data: user
+            });
+    });
+};
+
+exports.getAllName = function (req, res) {
+    User.find({ "name": req.params.user_name}, function (err, users) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'Users loading..',
+                data: users
+            });
+    });
+};
+
+exports.getAllEmail = function (req, res) {
+    SensorPackage.find({ "email": req.params.user_email}, function (err, users) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'Users loading..',
+                data: users
+            });
+    });
+};
+
+exports.new = function (req, res) {
+    let user = new User();
+    user.name = req.body.name;
+    user.email = req.body.email
+    user.save(function (err) {
+        if (err)
+            res.json(err);
+        else
+            res.json({
+                message: 'New user created!',
+                data: user
+            });
+    });
+};
+
+exports.update = function (req, res) {User.findById(req.params.user_id, function (err, user) {
+    if (err)
+        res.send(err);
+    user.name = req.body.name ? req.body.name : user.name;
+    user.email = req.body.email ? req.body.email : user.email;
+    user.save(function (err) {
+        if (err)
+            res.json(err);
+        else
+            res.json({
+                message: 'User Info updated',
+                data: user
+            });
+    });
+});
+};
+
+exports.delete = function (req, res) {
+    User.remove({
+        _id: req.params.user_id
+    }, function (err, user) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                status: "success",
+                message: 'User deleted',
+                data: user
+            });
+    });
+};
