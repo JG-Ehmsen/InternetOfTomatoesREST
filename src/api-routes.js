@@ -1,8 +1,16 @@
 let router = require('express').Router();
 
-var sensorDataController = require('./controllers/sensorDataController');
-var sensorController = require('./controllers/sensorController');
-var sensorPackageController = require('./controllers/sensorPackageController');
+let sensorDataController = require('./controllers/sensorDataController');
+let sensorController = require('./controllers/sensorController');
+let sensorPackageController = require('./controllers/sensorPackageController');
+
+let mqttHandler = require('./messaging/mqttHandler');
+
+let _mqttClient = null;
+function setMqttClient(mqttClient)
+{
+    _mqttClient = mqttClient;
+}
 
 router.route('/sensorData')
     .get(sensorDataController.getall)
@@ -28,4 +36,23 @@ router.route('/sensors/:sensor_id')
     .put(sensorPackageController.update)
     .delete(sensorPackageController.delete);
 
+router.route('/leds')
+    .put(function (req, res) {
+        let ledId = req.body.ledId;
+        let ledValue = req.body.ledValue;
+
+        let result = mqttHandler.setLEDBrightness(ledId, ledValue, _mqttClient);
+        if (result) {
+            res.json({
+                message: "Sent LED update message."
+            })
+        } else
+        {
+            res.json({
+                message: "LED update could not be sent."
+            })
+        }
+    });
+
 module.exports = router;
+module.exports.setMqttClient = setMqttClient;

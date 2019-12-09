@@ -10,18 +10,20 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 
-const mqttClient = new mqttHandler(config.flespiHost, config.flespiToken);
-mqttClient.connect(config.sensorTopic);
+const mqttHandle = new mqttHandler(config.flespiHost, config.flespiToken);
+mqttHandle.connect(config.sensorTopic);
+
+apiRoutes.setMqttClient(mqttHandle.mqttClient);
 
 mongoose.connect(config.url + config.db, { useNewUrlParser: true});
-var db = mongoose.connection;
+const db = mongoose.connection;
 if(!db)
     console.log("Error connecting db")
 else
     console.log("Db connected successfully")
 
 
-var port = process.env.PORT || config.port;
+const port = process.env.PORT || config.port;
 
 app.listen(port, function () {
     console.log("Running API on port " + port);
