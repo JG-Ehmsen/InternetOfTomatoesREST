@@ -49,6 +49,17 @@ exports.getAllName = function (req, res) {
     });
 };
 
+exports.getAllTimestamp = function (req, res) {
+    SensorData.find({ "timestamp": req.params.sensorData_timestamp}, function (err, sensorData) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'SensorData details loading..',
+            data: sensorData
+        });
+    });
+};
+
 exports.new = function (req, res) {
     let sensorData = new SensorData();
     sensorData.id = req.body.id;

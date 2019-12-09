@@ -23,6 +23,8 @@ router.route('/sensorData/name/:sensorData_name')
     .get(sensorDataController.getAllName);
 router.route('/sensorData/sensorid/:sensorData_sensorid')
     .get(sensorDataController.getAllSensorId);
+router.route('/sensorData/timestamp/:sensorData_timestamp')
+    .get(sensorDataController.getAllTimestamp);
 
 router.route('/sensors')
     .get(sensorController.getall)
