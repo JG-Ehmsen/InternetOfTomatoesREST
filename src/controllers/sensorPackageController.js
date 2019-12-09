@@ -8,6 +8,7 @@ exports.getall = function (req, res) {
                 message: err,
             });
         }
+        else
         res.json({
             status: "success",
             message: "SensorPackages retrieved successfully",
@@ -20,6 +21,7 @@ exports.getId = function (req, res) {
     SensorPackage.findById(req.params.sensorPackage_id, function (err, sensorPackage) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorPackage details loading..',
             data: sensorPackage
@@ -31,6 +33,7 @@ exports.getAllName = function (req, res) {
     SensorPackage.find({ "name": req.params.sensorPackage_name}, function (err, sensorPackages) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorPackages loading..',
             data: sensorPackages
@@ -42,6 +45,7 @@ exports.getAllOwner = function (req, res) {
     SensorPackage.find({ "owner": req.params.sensorPackage_owner}, function (err, sensorPackages) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorPackages loading..',
             data: sensorPackages
@@ -56,6 +60,7 @@ exports.new = function (req, res) {
     sensorPackage.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'New sensorPackage created!',
             data: sensorPackage
@@ -71,6 +76,7 @@ exports.update = function (req, res) {SensorPackage.findById(req.params.sensorPa
     sensorPackage.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'SensorPackage Info updated',
             data: sensorPackage
@@ -85,6 +91,7 @@ exports.delete = function (req, res) {
     }, function (err, sensorPackage) {
         if (err)
             res.send(err);
+        else
         res.json({
             status: "success",
             message: 'SensorPackage deleted'

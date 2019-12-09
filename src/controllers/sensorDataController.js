@@ -8,6 +8,7 @@ exports.getall = function (req, res) {
                 message: err,
             });
         }
+        else
         res.json({
             status: "success",
             message: "SensorData retrieved successfully",
@@ -20,6 +21,7 @@ exports.getId = function (req, res) {
     SensorData.findById(req.params.sensorData_id, function (err, sensorData) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorData details loading..',
             data: sensorData
@@ -31,6 +33,7 @@ exports.getAllSensorId = function (req, res) {
     SensorData.find({ "id": req.params.sensorData_sensorid}, function (err, sensorData) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorData details loading..',
             data: sensorData
@@ -42,6 +45,7 @@ exports.getAllName = function (req, res) {
     SensorData.find({ "name": req.params.sensorData_name}, function (err, sensorData) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorData details loading..',
             data: sensorData
@@ -53,6 +57,7 @@ exports.getAllTimestamp = function (req, res) {
     SensorData.find({ "timestamp": req.params.sensorData_timestamp}, function (err, sensorData) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'SensorData details loading..',
             data: sensorData
@@ -69,6 +74,7 @@ exports.new = function (req, res) {
     sensorData.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'New sensorData created!',
             data: sensorData
@@ -86,6 +92,7 @@ exports.update = function (req, res) {SensorData.findById(req.params.sensorData_
     sensorData.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'SensorData Info updated',
             data: sensorData
@@ -100,6 +107,7 @@ exports.delete = function (req, res) {
     }, function (err, sensorData) {
         if (err)
             res.send(err);
+        else
         res.json({
             status: "success",
             message: 'SensorData deleted'

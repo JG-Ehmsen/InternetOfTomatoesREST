@@ -8,6 +8,7 @@ exports.getall = function (req, res) {
                 message: err,
             });
         }
+        else
         res.json({
             status: "success",
             message: "Sensors retrieved successfully",
@@ -20,6 +21,7 @@ exports.getId = function (req, res) {
     Sensor.findById(req.params.sensor_id, function (err, sensor) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'Sensor details loading..',
             data: sensor
@@ -31,6 +33,7 @@ exports.getAllName = function (req, res) {
     Sensor.find({ "name": req.params.sensor_name}, function (err, sensors) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'Sensor details loading..',
             data: sensors
@@ -42,6 +45,7 @@ exports.getAllMaster = function (req, res) {
     Sensor.find({ "master": req.params.sensor_master}, function (err, sensors) {
         if (err)
             res.send(err);
+        else
         res.json({
             message: 'Sensor details loading..',
             data: sensors
@@ -56,6 +60,7 @@ exports.new = function (req, res) {
     sensor.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'New sensor created!',
             data: sensor
@@ -71,6 +76,7 @@ exports.update = function (req, res) {Sensor.findById(req.params.sensor_id, func
     sensor.save(function (err) {
         if (err)
             res.json(err);
+        else
         res.json({
             message: 'Sensor Info updated',
             data: sensor
@@ -85,6 +91,7 @@ exports.delete = function (req, res) {
     }, function (err, sensor) {
         if (err)
             res.send(err);
+        else
         res.json({
             status: "success",
             message: 'Sensor deleted'
