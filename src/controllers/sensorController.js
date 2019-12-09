@@ -16,6 +16,39 @@ exports.getall = function (req, res) {
     });
 };
 
+exports.getId = function (req, res) {
+    Sensor.findById(req.params.sensor_id, function (err, sensor) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Sensor details loading..',
+            data: sensor
+        });
+    });
+};
+
+exports.getAllName = function (req, res) {
+    Sensor.find({ "name": req.params.sensor_name}, function (err, sensors) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Sensor details loading..',
+            data: sensors
+        });
+    });
+};
+
+exports.getAllMaster = function (req, res) {
+    Sensor.find({ "master": req.params.sensor_master}, function (err, sensors) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Sensor details loading..',
+            data: sensors
+        });
+    });
+};
+
 exports.new = function (req, res) {
     let sensor = new Sensor();
     sensor.name = req.body.name;
@@ -25,17 +58,6 @@ exports.new = function (req, res) {
             res.json(err);
         res.json({
             message: 'New sensor created!',
-            data: sensor
-        });
-    });
-};
-
-exports.get = function (req, res) {
-    Sensor.findById(req.params.sensor_id, function (err, sensor) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Sensor details loading..',
             data: sensor
         });
     });
