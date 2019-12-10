@@ -9,7 +9,7 @@ function setMqttClient(mqttClient)
 
 router.route('/leds')
     .put(function (req, res) {
-        let ledId = req.body.ledId;
+        let ledId = "/control/led/" + req.body.ledId;
         let ledValue = req.body.ledValue;
 
         let result = mqttHandler.setLEDBrightness(ledId, ledValue, _mqttClient);
