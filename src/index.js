@@ -1,11 +1,14 @@
 let express = require('express');
+let bodyParser = require('body-parser');
+let mongoose = require('mongoose');
+let cors = require('cors');
+
 let sensorRoutes = require('./routers/sensorRoutes');
 let sensorDataRoutes = require('./routers/sensorDataRoutes');
 let sensorPackageRoutes = require('./routers/sensorPackageRoutes');
 let userRoutes = require('./routers/userRoutes');
 let messagingRoutes = require('./routers/messagingRoutes');
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
+
 let mqttHandler = require("./messaging/mqttHandler.js");
 let config = require('../config.json');
 
@@ -13,6 +16,8 @@ let app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use('/api/sensorPackages/', sensorPackageRoutes);
 app.use('/api/sensors/', sensorRoutes);
