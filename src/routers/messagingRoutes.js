@@ -8,7 +8,7 @@ function setMqttClient(mqttClient)
 }
 
 router.route('/leds')
-    .put(function (req, res) {
+    .post(function (req, res) {
         let ledId = "/control/led/" + req.body.ledId;
         let ledValue = req.body.ledValue;
 
@@ -25,7 +25,7 @@ router.route('/leds')
         }
     });
 router.route('/config/:rpi_id')
-    .put(function (req, res) {
+    .post(function (req, res) {
         let rpi_id = req.params.rpi_id;
         let config = JSON.stringify(req.body);
 
