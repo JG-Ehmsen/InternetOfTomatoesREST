@@ -1,4 +1,3 @@
-let express = require('express');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 
@@ -11,7 +10,7 @@ let messagingRoutes = require('./routers/messagingRoutes');
 let mqttHandler = require("./messaging/mqttHandler.js");
 let config = require('../config.json');
 
-let app = express();
+let app = require('express')();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
