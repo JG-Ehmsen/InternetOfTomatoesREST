@@ -64,5 +64,19 @@ function setLEDBrightness (ledId, ledValue, mqttClient) {
     }
 }
 
+function updateConfig (packageId, config, mqttClient) {
+
+    if (mqttClient && packageId && config) {
+        console.log("Update config of Package: " + packageId + " to " + config );
+        mqttClient.publish("conf/" + packageId, config);
+        return true;
+    } else
+    {
+        console.log("Could not update config of Package: " + packageId + " to " + config + ". MqttClient: " + mqttClient);
+        return false;
+    }
+}
+
 module.exports = MqttHandler;
 module.exports.setLEDBrightness = setLEDBrightness;
+module.exports.updateConfig = updateConfig;

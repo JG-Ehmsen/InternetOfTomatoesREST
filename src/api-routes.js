@@ -88,6 +88,23 @@ router.route('/leds')
             })
         }
     });
+router.route('/config/:rpi_id')
+    .put(function (req, res) {
+        let rpi_id = req.params.rpi_id;
+        let config = JSON.stringify(req.body);
+
+        let result = mqttHandler.updateConfig(rpi_id, config, _mqttClient);
+        if (result) {
+            res.json({
+                message: "Sent conf update message."
+            })
+        } else
+        {
+            res.json({
+                message: "Conf update could not be sent."
+            })
+        }
+    });
 
 module.exports = router;
 module.exports.setMqttClient = setMqttClient;

@@ -15,7 +15,7 @@ mqttHandle.connect(config.sensorTopic);
 
 apiRoutes.setMqttClient(mqttHandle.mqttClient);
 
-mongoose.connect(config.url + config.db, { useNewUrlParser: true});
+mongoose.connect(config.url + config.db, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 if(!db)
     console.log("Error connecting db")
