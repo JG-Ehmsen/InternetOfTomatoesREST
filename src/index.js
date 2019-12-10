@@ -17,7 +17,7 @@ let app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.use(cors());
+//app.use(cors());
 
 app.use('/api/sensorPackages/', sensorPackageRoutes);
 app.use('/api/sensors/', sensorRoutes);
