@@ -53,6 +53,18 @@ exports.getAllOwner = function (req, res) {
     });
 };
 
+exports.getAllQuery = function (req, res) {
+    SensorPackage.find(req.body, function (err, sensorPackage) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'SensorPackage details loading..',
+                data: sensorPackage
+            });
+    });
+};
+
 exports.new = function (req, res) {
     let sensorPackage = new SensorPackage();
     sensorPackage.name = req.body.name;

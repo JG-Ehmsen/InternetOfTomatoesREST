@@ -53,6 +53,18 @@ exports.getAllEmail = function (req, res) {
     });
 };
 
+exports.getAllQuery = function (req, res) {
+    User.find(req.body, function (err, user) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'User details loading..',
+                data: user
+            });
+    });
+};
+
 exports.new = function (req, res) {
     let user = new User();
     user.name = req.body.name;

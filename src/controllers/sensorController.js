@@ -53,6 +53,18 @@ exports.getAllMaster = function (req, res) {
     });
 };
 
+exports.getAllQuery = function (req, res) {
+    Sensor.find(req.body, function (err, sensor) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'Sensor details loading..',
+                data: sensor
+            });
+    });
+};
+
 exports.new = function (req, res) {
     let sensor = new Sensor();
     sensor.name = req.body.name;

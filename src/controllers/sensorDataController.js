@@ -65,6 +65,18 @@ exports.getAllTimestamp = function (req, res) {
     });
 };
 
+exports.getAllQuery = function (req, res) {
+    SensorData.find(req.body, function (err, sensorData) {
+        if (err)
+            res.send(err);
+        else
+            res.json({
+                message: 'SensorData details loading..',
+                data: sensorData
+            });
+    });
+};
+
 exports.new = function (req, res) {
     let sensorData = new SensorData();
     sensorData.id = req.body.id;

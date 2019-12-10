@@ -26,6 +26,8 @@ router.route('/sensorData/sensorid/:sensorData_sensorid')
     .get(sensorDataController.getAllSensorId);
 router.route('/sensorData/timestamp/:sensorData_timestamp')
     .get(sensorDataController.getAllTimestamp);
+router.route('/sensorData/query')
+    .post(sensorDataController.getAllQuery);
 
 router.route('/sensors')
     .get(sensorController.getall)
@@ -38,6 +40,8 @@ router.route('/sensors/name/:sensor_name')
     .get(sensorController.getAllName);
 router.route('/sensors/master/:sensor_master')
     .get(sensorController.getAllMaster);
+router.route('/sensors/query')
+    .post(sensorController.getAllQuery);
 
 router.route('/sensorPackages')
     .get(sensorPackageController.getall)
@@ -50,6 +54,8 @@ router.route('/sensorPackages/name/:sensorPackage_name')
     .get(sensorPackageController.getAllName);
 router.route('/sensorPackages/owner/:sensorPackage_owner')
     .get(sensorPackageController.getAllOwner);
+router.route('/sensorPackages/query')
+    .post(sensorPackageController.getAllQuery);
 
 router.route('/users')
     .get(userController.getall)
@@ -62,6 +68,8 @@ router.route('/users/name/:user_name')
     .get(userController.getAllName);
 router.route('/users/email/:user_email')
     .get(userController.getAllEmail);
+router.route('/users/query')
+    .post(userController.getAllQuery);
 
 router.route('/leds')
     .put(function (req, res) {
