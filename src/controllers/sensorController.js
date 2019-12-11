@@ -1,6 +1,9 @@
 Sensor = require('../models/sensorModel');
 
+let defaultResponseSize = 30;
+
 exports.getall = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     Sensor.get(function (err, sensors) {
         if (err) {
             res.json({
@@ -14,7 +17,7 @@ exports.getall = function (req, res) {
             message: "Sensors retrieved successfully",
             data: sensors
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getId = function (req, res) {
@@ -30,6 +33,7 @@ exports.getId = function (req, res) {
 };
 
 exports.getAllName = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     Sensor.find({ "name": req.params.sensor_name}, function (err, sensors) {
         if (err)
             res.send(err);
@@ -38,10 +42,11 @@ exports.getAllName = function (req, res) {
             message: 'Sensor details loading..',
             data: sensors
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllMaster = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     Sensor.find({ "master": req.params.sensor_master}, function (err, sensors) {
         if (err)
             res.send(err);
@@ -50,10 +55,11 @@ exports.getAllMaster = function (req, res) {
             message: 'Sensor details loading..',
             data: sensors
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllQuery = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     Sensor.find(req.body, function (err, sensor) {
         if (err)
             res.send(err);
@@ -62,7 +68,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'Sensor details loading..',
                 data: sensor
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.new = function (req, res) {

@@ -1,6 +1,9 @@
 User = require('../models/userModel');
 
+let defaultResponseSize = 30;
+
 exports.getall = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     User.get(function (err, users) {
         if (err) {
             res.json({
@@ -14,7 +17,7 @@ exports.getall = function (req, res) {
                 message: "Users retrieved successfully",
                 data: users
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getId = function (req, res) {
@@ -30,6 +33,7 @@ exports.getId = function (req, res) {
 };
 
 exports.getAllName = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     User.find({ "name": req.params.user_name}, function (err, users) {
         if (err)
             res.send(err);
@@ -38,10 +42,11 @@ exports.getAllName = function (req, res) {
                 message: 'Users loading..',
                 data: users
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllEmail = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorPackage.find({ "email": req.params.user_email}, function (err, users) {
         if (err)
             res.send(err);
@@ -50,10 +55,11 @@ exports.getAllEmail = function (req, res) {
                 message: 'Users loading..',
                 data: users
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllQuery = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     User.find(req.body, function (err, user) {
         if (err)
             res.send(err);
@@ -62,7 +68,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'User details loading..',
                 data: user
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.new = function (req, res) {

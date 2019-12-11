@@ -1,6 +1,9 @@
 SensorPackage = require('../models/sensorPackageModel');
 
+let defaultResponseSize = 30;
+
 exports.getall = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorPackage.get(function (err, sensorPackages) {
         if (err) {
             res.json({
@@ -14,7 +17,7 @@ exports.getall = function (req, res) {
             message: "SensorPackages retrieved successfully",
             data: sensorPackages
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getId = function (req, res) {
@@ -30,6 +33,7 @@ exports.getId = function (req, res) {
 };
 
 exports.getAllName = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorPackage.find({ "name": req.params.sensorPackage_name}, function (err, sensorPackages) {
         if (err)
             res.send(err);
@@ -38,10 +42,11 @@ exports.getAllName = function (req, res) {
             message: 'SensorPackages loading..',
             data: sensorPackages
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllOwner = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorPackage.find({ "owner": req.params.sensorPackage_owner}, function (err, sensorPackages) {
         if (err)
             res.send(err);
@@ -50,10 +55,11 @@ exports.getAllOwner = function (req, res) {
             message: 'SensorPackages loading..',
             data: sensorPackages
         });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.getAllQuery = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorPackage.find(req.body, function (err, sensorPackage) {
         if (err)
             res.send(err);
@@ -62,7 +68,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'SensorPackage details loading..',
                 data: sensorPackage
             });
-    });
+    }).limit(parseInt(limit));
 };
 
 exports.new = function (req, res) {

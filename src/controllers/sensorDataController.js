@@ -1,6 +1,8 @@
 SensorData = require('../models/sensorDataModel');
+let defaultResponseSize = 30;
 
 exports.getall = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorData.get(function (err, sensorData) {
         if (err) {
             res.json({
@@ -14,7 +16,7 @@ exports.getall = function (req, res) {
             message: "SensorData retrieved successfully",
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'});
+    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
 };
 
 exports.getId = function (req, res) {
@@ -30,6 +32,7 @@ exports.getId = function (req, res) {
 };
 
 exports.getAllSensorId = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorData.find({ "id": req.params.sensorData_sensorid}, function (err, sensorData) {
         if (err)
             res.send(err);
@@ -38,10 +41,11 @@ exports.getAllSensorId = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'});
+    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
 };
 
 exports.getAllName = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorData.find({ "name": req.params.sensorData_name}, function (err, sensorData) {
         if (err)
             res.send(err);
@@ -50,10 +54,11 @@ exports.getAllName = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'});
+    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
 };
 
 exports.getAllTimestamp = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorData.find({ "timestamp": req.params.sensorData_timestamp}, function (err, sensorData) {
         if (err)
             res.send(err);
@@ -62,10 +67,11 @@ exports.getAllTimestamp = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'});
+    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
 };
 
 exports.getAllQuery = function (req, res) {
+    let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
     SensorData.find(req.body, function (err, sensorData) {
         if (err)
             res.send(err);
@@ -74,7 +80,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'SensorData details loading..',
                 data: sensorData
             });
-    }).sort({'timestamp': 'desc'});
+    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
 };
 
 exports.new = function (req, res) {
