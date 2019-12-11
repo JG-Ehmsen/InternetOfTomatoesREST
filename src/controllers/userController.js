@@ -4,7 +4,7 @@ let defaultResponseSize = 30;
 
 exports.getall = function (req, res) {
     let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
-    User.get(function (err, users) {
+    User.find(function (err, users) {
         if (err) {
             res.json({
                 status: "error",

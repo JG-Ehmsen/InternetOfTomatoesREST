@@ -3,7 +3,7 @@ let defaultResponseSize = 30;
 
 exports.getall = function (req, res) {
     let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
-    SensorData.get(function (err, sensorData) {
+    SensorData.find(function (err, sensorData) {
         if (err) {
             res.json({
                 status: "error",
