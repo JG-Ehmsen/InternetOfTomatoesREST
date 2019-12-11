@@ -42,14 +42,3 @@ const port = process.env.PORT || config.port;
 app.listen(port, function () {
     console.log("Running API on port " + port);
 });
-
-// ----- Socket IO Setup -----
-let io = require('socket.io')(port + 1);
-
-io.on('connection', function(socket) {
-    console.log('a client connected');
-    socket.emit('test', {hello: 'world'});
-    socket.on('reply', function (data) {
-        console.log(data);
-    });
-});

@@ -1,4 +1,14 @@
 SensorData = require('../models/sensorDataModel');
+
+// ----- Socket IO Setup -----
+let io = require('socket.io')(30001);
+
+let _socket = null;
+io.on('connection', function(socket) {
+    console.log('a client connected');
+    _socket = socket;
+});
+
 let defaultResponseSize = 30;
 
 exports.getall = function (req, res) {
@@ -92,11 +102,17 @@ exports.new = function (req, res) {
     sensorData.save(function (err) {
         if (err)
             res.json(err);
-        else
-        res.json({
-            message: 'New sensorData created!',
-            data: sensorData
-        });
+        else {
+            _socket.emit('sensordata/' + sensorData.id, {
+                id: sensorData.id,
+                name: sensorData.name,
+                value: sensorData.value,
+                timestamp: sensorData.timestamp});
+            res.json({
+                message: 'New sensorData created!',
+                data: sensorData
+            });
+        }
     });
 };
 
