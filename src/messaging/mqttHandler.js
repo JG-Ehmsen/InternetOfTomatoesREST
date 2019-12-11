@@ -1,6 +1,15 @@
 let mqtt = require('mqtt');
 SensorData = require('../models/sensorDataModel');
 
+// ----- Socket IO Setup -----
+let io = require('socket.io')(3002);
+let _socket = null;
+io.on('connection', function(socket) {
+    console.log('a client connected');
+
+    _socket = socket;
+});
+
 class MqttHandler {
     constructor(host, token) {
         this.mqttClient = null;
@@ -43,8 +52,18 @@ class MqttHandler {
             sensorData.value = jsonMessage.value;
             sensorData.timestamp = jsonMessage.timestamp;
             sensorData.save(function (err) {
-                if (err)
+                if (err) {
                     console.log("Error logging sensor data with message: " + message)
+                }
+                else
+                {
+                    let emitPath = "sensordata/" + sensorData.id;
+                    _socket.emit(emitPath, {
+                        id: sensorData.id,
+                        name: sensorData.name,
+                        value: sensorData.value,
+                        timestamp: sensorData.timestamp});
+                }
             });
         });
     }
