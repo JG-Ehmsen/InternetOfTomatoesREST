@@ -94,6 +94,7 @@ exports.getAllQuery = function (req, res) {
 };
 
 exports.new = function (req, res) {
+    console.log("Starting add new data.");
     let sensorData = new SensorData();
     sensorData.id = req.body.id;
     sensorData.name = req.body.name;
