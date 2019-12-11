@@ -2,12 +2,9 @@ let mqtt = require('mqtt');
 SensorData = require('../models/sensorDataModel');
 
 // ----- Socket IO Setup -----
-let io = require('socket.io')(3002);
-let _socket = null;
+const io = require('socket.io')(3002);
 io.on('connection', function(socket) {
-    console.log('a client connected');
-
-    _socket = socket;
+    console.log('A client connected');
 });
 
 class MqttHandler {
@@ -44,9 +41,9 @@ class MqttHandler {
 
         // When a message arrive console log it
         this.mqttClient.on("message", function(topic, message) {
-            var jsonMessage = JSON.parse(message);
+            let jsonMessage = JSON.parse(message);
 
-            var sensorData = new SensorData();
+            let sensorData = new SensorData();
             sensorData.id = jsonMessage.id;
             sensorData.name = jsonMessage.name;
             sensorData.value = jsonMessage.value;
@@ -57,12 +54,15 @@ class MqttHandler {
                 }
                 else
                 {
-                    let emitPath = "sensordata/" + sensorData.id;
-                    _socket.emit(emitPath, {
-                        id: sensorData.id,
-                        name: sensorData.name,
-                        value: sensorData.value,
-                        timestamp: sensorData.timestamp});
+                    if (_socket) {
+                        let emitPath = "sensordata/" + sensorData.id;
+                        io.emit(emitPath, {
+                            id: sensorData.id,
+                            name: sensorData.name,
+                            value: sensorData.value,
+                            timestamp: sensorData.timestamp
+                        });
+                    }
                 }
             });
         });
