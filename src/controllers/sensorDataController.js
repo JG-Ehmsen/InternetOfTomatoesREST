@@ -5,6 +5,7 @@ SensorData = require('../models/sensorDataModel');
 let _socket = null;
 io.on('connection', function(socket) {
     console.log('a client connected');
+
     _socket = socket;
 });
 
@@ -102,7 +103,9 @@ exports.new = function (req, res) {
         if (err)
             res.json(err);
         else {
-            _socket.emit('sensordata/' + sensorData.id, {
+            let emitPath = "sensordata/" + sensorData.id;
+            console.log("Emitting to: " + emitPath);
+            _socket.emit(emitPath, {
                 id: sensorData.id,
                 name: sensorData.name,
                 value: sensorData.value,
