@@ -1,4 +1,4 @@
-let io = require('socket.io')(3001);
+let io = require('socket.io')(3002);
 SensorData = require('../models/sensorDataModel');
 
 // ----- Socket IO Setup -----
