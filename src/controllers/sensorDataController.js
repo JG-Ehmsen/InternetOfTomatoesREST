@@ -1,8 +1,7 @@
+let io = require('socket.io')(3001);
 SensorData = require('../models/sensorDataModel');
 
 // ----- Socket IO Setup -----
-let io = require('socket.io')(30001);
-
 let _socket = null;
 io.on('connection', function(socket) {
     console.log('a client connected');
