@@ -54,7 +54,6 @@ class MqttHandler {
                 }
                 else
                 {
-                    if (_socket) {
                         let emitPath = "sensordata/" + sensorData.id;
                         io.emit(emitPath, {
                             id: sensorData.id,
@@ -62,7 +61,6 @@ class MqttHandler {
                             value: sensorData.value,
                             timestamp: sensorData.timestamp
                         });
-                    }
                 }
             });
         });
