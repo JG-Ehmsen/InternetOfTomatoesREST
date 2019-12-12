@@ -84,7 +84,7 @@ function setLEDBrightness (ledId, ledValue, mqttClient) {
 
     if (mqttClient && ledId && ledValue) {
         console.log("Set brightness of LED: " + ledId + " to " + ledValue );
-        mqttClient.publish(ledId, ledValue);
+        mqttClient.publish(""+ledId, ""+ledValue);
         return true;
     } else
     {
@@ -97,7 +97,7 @@ function updateConfig (packageId, config, mqttClient) {
 
     if (mqttClient && packageId && config) {
         console.log("Update config of Package: " + packageId + " to " + config );
-        mqttClient.publish("conf/" + packageId, config);
+        mqttClient.publish("conf/" + packageId, ""+config);
         return true;
     } else
     {
