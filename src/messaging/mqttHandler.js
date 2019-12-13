@@ -3,7 +3,6 @@ SensorData = require('../models/sensorDataModel');
 
 // ----- Socket IO Setup -----
 let dictSingleData = {};
-let dict30Data = {};
 const io = require('socket.io')(3002);
 io.on('connection', function (socket) {
     console.log('A client connected');
@@ -15,11 +14,6 @@ io.on('connection', function (socket) {
             value: value.value,
             timestamp: value.timestamp
         });
-    }
-    for (const [key, value] of Object.entries(dict30Data)) {
-        let keySplit = key.split(",");
-        let emitPath = "sensordata/" + keySplit[0] + "/" + keySplit[1];
-        socket.emit(emitPath, value);
     }
 });
 
@@ -77,17 +71,6 @@ class MqttHandler {
                     });
                     let dictKey = sensorData.id + sensorData.name;
                     dictSingleData[dictKey] = sensorData;
-
-
-                    let dictKey2 = sensorData.id + "," + sensorData.name;
-                    let emitPath2 = "sensordata/" + sensorData.id + "/" + sensorData.name;
-                    SensorData.find({id: sensorData.id, name: sensorData.name}, function (err, sensorData) {
-                        if (err)
-                            console.log(err);
-                        else
-                            io.emit(emitPath2, sensorData);
-                            dict30Data[dictKey2] = sensorData;
-                    }).sort({'timestamp': 'desc'}).limit(30);
                 }
             });
         });
