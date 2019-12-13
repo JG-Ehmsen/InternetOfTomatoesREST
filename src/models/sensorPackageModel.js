@@ -1,9 +1,17 @@
 let mongoose = require('mongoose');
 
 let sensorPackageSchema = mongoose.Schema({
+    id: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
+    },
+    description: {
+        type: String,
+        required: false
     },
     owner: {
         type: String,

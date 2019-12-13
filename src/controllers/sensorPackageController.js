@@ -73,8 +73,10 @@ exports.getAllQuery = function (req, res) {
 
 exports.new = function (req, res) {
     let sensorPackage = new SensorPackage();
+    sensorPackage.id = req.body.id;
     sensorPackage.name = req.body.name;
-    sensorPackage.owner = req.body.owner
+    sensorPackage.description = req.body.description;
+    sensorPackage.owner = req.body.owner;
     sensorPackage.save(function (err) {
         if (err)
             res.json(err);
@@ -89,7 +91,9 @@ exports.new = function (req, res) {
 exports.update = function (req, res) {SensorPackage.findById(req.params.sensorPackage_id, function (err, sensorPackage) {
     if (err)
         res.send(err);
+    sensorPackage.id = req.body.id ? req.body.id : sensorPackage.id;
     sensorPackage.name = req.body.name ? req.body.name : sensorPackage.name;
+    sensorPackage.description = req.body.description ? req.body.description : sensorPackage.description;
     sensorPackage.owner = req.body.owner ? req.body.owner : sensorPackage.owner;
     sensorPackage.save(function (err) {
         if (err)
