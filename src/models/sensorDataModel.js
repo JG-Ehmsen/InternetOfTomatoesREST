@@ -14,7 +14,7 @@ let sensorDataSchema = mongoose.Schema({
         required: true
     },
     timestamp: {
-        type: String,
+        type: Number,
         required: true
     }
 });
