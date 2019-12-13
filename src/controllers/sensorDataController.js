@@ -17,7 +17,7 @@ exports.getall = function (req, res) {
             message: "SensorData retrieved successfully",
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit));
 };
 
 exports.getId = function (req, res) {
@@ -42,7 +42,7 @@ exports.getAllSensorId = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit));
 };
 
 exports.getAllName = function (req, res) {
@@ -55,7 +55,7 @@ exports.getAllName = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit));
 };
 
 exports.getAllTimestamp = function (req, res) {
@@ -68,7 +68,7 @@ exports.getAllTimestamp = function (req, res) {
             message: 'SensorData details loading..',
             data: sensorData
         });
-    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit));
 };
 
 exports.getAllQuery = function (req, res) {
@@ -81,7 +81,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'SensorData details loading..',
                 data: sensorData
             });
-    }).sort({'timestamp': 'desc'}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit));
 };
 
 exports.new = function (req, res) {
