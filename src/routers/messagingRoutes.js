@@ -27,7 +27,7 @@ router.route('/leds')
 router.route('/config/:rpi_id')
     .post(function (req, res) {
         let rpi_id = req.params.rpi_id;
-        let config = req.body;
+        let config = JSON.stringify(req.body);
 
         let result = mqttHandler.updateConfig(rpi_id, config, _mqttClient);
         if (result) {
