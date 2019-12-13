@@ -4,7 +4,10 @@ SensorData = require('../models/sensorDataModel');
 // ----- Socket IO Setup -----
 let dictSingleData = {};
 const io = require('socket.io')(3002);
-io.on('connection', function (socket) {
+io.on('connection', socketSendDefault);
+io.on('subscrive', socketSendDefault);
+
+function socketSendDefault(socket) {
     console.log('A client connected');
     for (const [key, value] of Object.entries(dictSingleData)) {
         let emitPath = "sensordata/" + value.id;
@@ -15,7 +18,7 @@ io.on('connection', function (socket) {
             timestamp: value.timestamp
         });
     }
-});
+}
 
 class MqttHandler {
     constructor(host, token) {
@@ -92,10 +95,9 @@ function setLEDBrightness(ledId, ledValue, mqttClient) {
 }
 
 function updateConfig(packageId, config, mqttClient) {
-
     if (mqttClient && packageId && config) {
         console.log("Update config of Package: " + packageId + " to " + config);
-        mqttClient.publish("conf/" + packageId, "" + config);
+        mqttClient.publish("/conf/" + packageId, "" + config);
         return true;
     } else {
         console.log("Could not update config of Package: " + packageId + " to " + config + ". MqttClient: " + mqttClient);
