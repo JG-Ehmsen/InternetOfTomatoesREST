@@ -2,19 +2,25 @@ let mqtt = require('mqtt');
 SensorData = require('../models/sensorDataModel');
 
 // ----- Socket IO Setup -----
-let dict = {};
+let dictSingleData = {};
+let dict30Data = {};
 const io = require('socket.io')(3002);
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
     console.log('A client connected');
-    for (const [key, value] of Object.entries(dict)) {
-            let emitPath = "sensordata/" + value.id;
-            socket.emit(emitPath, {
-                id: value.id,
-                name: value.name,
-                value: value.value,
-                timestamp: value.timestamp
-            });
-        }
+    for (const [key, value] of Object.entries(dictSingleData)) {
+        let emitPath = "sensordata/" + value.id;
+        socket.emit(emitPath, {
+            id: value.id,
+            name: value.name,
+            value: value.value,
+            timestamp: value.timestamp
+        });
+    }
+    for (const [key, value] of Object.entries(dict30Data)) {
+        let keySplit = key.split(",");
+        let emitPath = "sensordata/" + keySplit[0] + "/" + keySplit[1];
+        socket.emit(emitPath, value);
+    }
 });
 
 class MqttHandler {
@@ -47,10 +53,10 @@ class MqttHandler {
         });
 
         // Mqtt subscriptions with various topics
-        this.mqttClient.subscribe(sensorTopic, { qos: 0 });
+        this.mqttClient.subscribe(sensorTopic, {qos: 0});
 
         // When a message arrive console log it
-        this.mqttClient.on("message", function(topic, message) {
+        this.mqttClient.on("message", function (topic, message) {
             let jsonMessage = JSON.parse(message);
 
             let sensorData = new SensorData();
@@ -61,46 +67,54 @@ class MqttHandler {
             sensorData.save(function (err) {
                 if (err) {
                     console.log("Error logging sensor data with message: " + message)
-                }
-                else
-                {
-                        let emitPath = "sensordata/" + sensorData.id;
-                        io.emit(emitPath, {
-                            id: sensorData.id,
-                            name: sensorData.name,
-                            value: sensorData.value,
-                            timestamp: sensorData.timestamp
-                        });
-                        let dictKey = sensorData.id + sensorData.name;
-                        dict[dictKey] = sensorData;
+                } else {
+                    let emitPath = "sensordata/" + sensorData.id;
+                    io.emit(emitPath, {
+                        id: sensorData.id,
+                        name: sensorData.name,
+                        value: sensorData.value,
+                        timestamp: sensorData.timestamp
+                    });
+                    let dictKey = sensorData.id + sensorData.name;
+                    dictSingleData[dictKey] = sensorData;
+
+
+                    let dictKey2 = sensorData.id + "," + sensorData.name;
+                    let emitPath2 = "sensordata/" + sensorData.id + "/" + sensorData.name;
+                    SensorData.find({id: sensorData.id, name: sensorData.name}, function (err, sensorData) {
+                        if (err)
+                            console.log(err);
+                        else
+                            io.emit(emitPath2, sensorData);
+                            dict30Data[dictKey2] = sensorData;
+                    }).sort({'timestamp': 'desc'}).limit(30);
                 }
             });
         });
     }
 
 }
+
 // Change an LED brightness
-function setLEDBrightness (ledId, ledValue, mqttClient) {
+function setLEDBrightness(ledId, ledValue, mqttClient) {
 
     if (mqttClient && ledId && ledValue) {
-        console.log("Set brightness of LED: " + ledId + " to " + ledValue );
-        mqttClient.publish(""+ledId, ""+ledValue);
+        console.log("Set brightness of LED: " + ledId + " to " + ledValue);
+        mqttClient.publish("" + ledId, "" + ledValue);
         return true;
-    } else
-    {
+    } else {
         console.log("Could not set brightness of LED: " + ledId + " to " + ledValue + ". MqttClient: " + mqttClient);
         return false;
     }
 }
 
-function updateConfig (packageId, config, mqttClient) {
+function updateConfig(packageId, config, mqttClient) {
 
     if (mqttClient && packageId && config) {
-        console.log("Update config of Package: " + packageId + " to " + config );
-        mqttClient.publish("conf/" + packageId, ""+config);
+        console.log("Update config of Package: " + packageId + " to " + config);
+        mqttClient.publish("conf/" + packageId, "" + config);
         return true;
-    } else
-    {
+    } else {
         console.log("Could not update config of Package: " + packageId + " to " + config + ". MqttClient: " + mqttClient);
         return false;
     }
