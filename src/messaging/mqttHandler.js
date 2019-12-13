@@ -5,7 +5,7 @@ SensorData = require('../models/sensorDataModel');
 let dictSingleData = {};
 const io = require('socket.io')(3002);
 io.on('connection', socketSendDefault);
-io.on('subscrive', socketSendDefault);
+io.on('subscribe', socketSendDefault);
 
 function socketSendDefault(socket) {
     console.log('A client connected');
