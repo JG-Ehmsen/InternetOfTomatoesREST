@@ -73,6 +73,7 @@ exports.getAllTimestamp = function (req, res) {
 
 exports.getAllQuery = function (req, res) {
     let limit = req.headers.limit ? req.headers.limit : defaultResponseSize;
+    let time = req.headers.time ? req.headers.time : 0;
     SensorData.find(req.body, function (err, sensorData) {
         if (err)
             res.send(err);
@@ -81,7 +82,7 @@ exports.getAllQuery = function (req, res) {
                 message: 'SensorData details loading..',
                 data: sensorData
             });
-    }).sort({timestamp: -1}).limit(parseInt(limit));
+    }).sort({timestamp: -1}).limit(parseInt(limit)).find({ timestamp: { $gte: time }});
 };
 
 exports.new = function (req, res) {
